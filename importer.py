@@ -13,12 +13,12 @@ import time
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
 
-settings = {'youtube_api_key':  '',
-            'youtube_channel':  '',
-            'vk_login':         '',
-            'vk_password':      '',
-            'vk_app_id':        '',
-            'vk_group_id':      ''}
+settings = {'youtube_api_key':   '',
+            'youtube_channel':   '',
+            'vk_login':          '',
+            'vk_password':       '',
+            'vk_app_id':         '',
+            'vk_group_id':       ''}
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -28,7 +28,7 @@ settings = {'youtube_api_key':  '',
 error_interrupt = 'Forced exit!'
 
 import_paused = 'Importing is paused on {} video! Enter to continue or ' \
-                'interrupt to exit: '
+                'CTRL+C to exit!'
 
 video_imported = 'Video {} is imported! Link: {}'
 
@@ -61,7 +61,7 @@ def log(message, n=0, use_print=True):
     prompt = '[{}] [{}{}] {}'.format(timestamp, types[n], Color.x, message)
 
     if n == 3:
-        print(prompt)
+        print('\n' + prompt)
         exit(1)
 
     elif use_print:
@@ -76,7 +76,6 @@ def log(message, n=0, use_print=True):
 
 
 try:
-    log('yt2vk-video-importer is started!', 0)
     log('Checking for settings…', 1)
     for n in settings:
         if not settings[n]:
@@ -135,18 +134,18 @@ pl_url = '{}playlistItems?part=snippet&maxResults=50&pageToken=' \
 
 
 if youtube_channel.startswith('UC') and len(youtube_channel) == 24:
-    log('Detected YouTube channel ID!')
+    log('YouTube channel ID is detected!')
     channel_video = '{}channels?&part=contentDetails&id={}&key={}'
     channel_data = '{}channels?&part=snippet,id&id={}&title&key={}'
 else:
-    log('Detected YouTube username!')
+    log('YouTube username is detected!')
     channel_video = '{}channels?part=contentDetails&forUsername={}&key={}'
     channel_data = '{}channels?&part=snippet,id&forUsername={}&title&key={}'
 
 
 def get_video_list():
     try:
-        log('Collecting videos…')
+        log('Collecting videos from {}…'.format(youtube_channel))
         videos = []
         fetched = False
         load = r.get(channel_video.format(api_url, youtube_channel,
@@ -172,15 +171,17 @@ def get_video_list():
                 returned_videos = read['items']
                 for video in returned_videos:
                     videos.append(video_url +
-                                  video['snippet']['resourceId']['videoId'])
+                                  video['snippet']['resourceId']
+                                       ['videoId'])
                 fetched = True
-
-        load = r.get(channel_data.format(api_url, youtube_channel,
-                                         youtube_api_key))
-        channel_title = load.json()['items'][0]['snippet']['title']
-        load.close()
-        log('Collected {} videos from {}!'
-            .format(len(videos), channel_title), 1)
+        filename = '{}_{}'.format(time.strftime('%d.%m.%y_%H:%M:%S'),
+                                    youtube_channel)
+        filelinks = open(filename, 'w+')
+        for n in videos:
+            filelinks.write(n + '\n')
+        filelinks.close()
+        log('{} links are saved to {}!'
+            .format(len(videos), filename), 1)
         return videos[::-1]
 
     except KeyboardInterrupt:
@@ -249,7 +250,7 @@ while True:
 
 count = finish_at - start_at + 1
 
-log('Click CTRL+C! for pause!', 2)
+log('For pause use CTRL+C!', 2)
 log('Importing {} videos [{}-{}]…'.format(count, start_at, finish_at))
 time_started = time.time()
 uploaded = False
