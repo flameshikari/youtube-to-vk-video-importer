@@ -14,6 +14,7 @@ sudo pip3 install vk requests
 
 * Pretty output;
 * Works with channel IDs and usernames;
+* Saving links to file;
 * Pausing;
 * Setting custom positions.
 
