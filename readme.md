@@ -2,8 +2,6 @@
 
 This script can collect links of all videos from YouTube channel into the file and upload them to the video section of your VK group.
 
-
-
 ## Features
 
 * Pretty output;
@@ -34,7 +32,7 @@ $ pip3 install --user --upgrade requests vk
 
 The settings are located in `config.yaml`. An example of the settings:
 
-```python
+```
 youtube_api_key: JKFjskf71jxvnf9781hjkv-21jf7f
 youtube_channel: Kurzgesagt
 vk_login: mail@example.com
@@ -44,21 +42,23 @@ vk_group_id: 13333337
 vk_api_version: 5.0
 ```
 
-The filling of the settings will take 5 minutes of your time. Let's go!
+Let's see what's defined in `config.yaml`.
 
 #### youtube_api_key
 
-It's hard to explain, read **[this](http://help.dimsemenov.com/kb/wordpress-royalslider-tutorials/wp-how-to-get-youtube-api-key)**!
+YouTube API key. **[Here is a tutorial for getting the key](http://help.dimsemenov.com/kb/wordpress-royalslider-tutorials/wp-how-to-get-youtube-api-key)**.
 
 #### youtube_channel
 
-Just copy username or channel ID from YouTube URL. Examples:
-: Channel ID: `https://www.youtube.com/channel/`**UCsXVk37blfLxx1rDPwtNM8Q**
-: Username: `https://www.youtube.com/user/`**example**
+Username or channel ID. Examples:
+
+![alt text](https://www.slickremix.com/wp-content/uploads/2013/08/Screen-Shot-2015-05-08-at-2.20.51-AM.png "Channel ID")
+***
+![alt text](https://www.slickremix.com/wp-content/uploads/2013/08/Screen-Shot-2014-10-25-at-7.45.00-PM.png "Username")
 
 #### vk_api_login
 
-Your VK profile login. 
+Your VK profile login. It should be an email address.
 
 #### vk_api_password
 
@@ -70,8 +70,7 @@ Click **[here](https://vk.com/editapp?act=create)** to create an app. After crea
 
 #### vk_group_id
 
-Go to the group and copy ID from address bar. Example:
-: Group ID: `https://vk.com/group`**1337**
+Go to the group and just copy ID number from address bar.
 
 #### vk_api_version
 
@@ -83,8 +82,7 @@ After filling settings, you can execute the script by:
 ```bash
 $ python importer.py
 ```
-
-
+The script will ask you about collecting links, positions, etc. Also it will shows some tips for using, pausing/resuming, etc.
 ## License
 
 This project is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
