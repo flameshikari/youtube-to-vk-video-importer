@@ -1,39 +1,50 @@
 ## Description
 
-That script imports all videos from YouTube channel to the video section of your VK group. Perhaps, someone will needs it. 
+This script can collect links of all videos from YouTube channel into the file and upload them to the video section of your VK group.
 
-## Requirements
 
-**Python 3** with **requests** and **vk**. Install them:
-
-```bash
-sudo pip3 install vk requests
-```
 
 ## Features
 
 * Pretty output;
 * Works with channel IDs and usernames;
-* Saving links to file;
-* Pausing;
-* Setting custom positions.
+* Collecting links to the file;
+* Pausing and resuming the upload process;
+* Setting custom start and end positions.
 
-By my calculation, speed of importing videos is ≈1 video per second. *Such speed!*
+Average speed of importing videos is ≈1.1 video per second by my tests. *Such speed!*
 
-## Getting Credentials
+## Requirements
 
-Settings are located in the head of <b>importer.py</b> file. They look next:
+**Python 3.*** with `requests` and `vk` modules. Installation examples:
 
-```python
-settings = {'youtube_api_key':  '',
-            'youtube_channel':  '',
-            'vk_login':         '',
-            'vk_password':      '',
-            'vk_app_id':        '',
-            'vk_group_id':      ''}
+#### Arch Linux
+```bash
+$ sudo pacman -S python3 python3-pip
+$ pip3 install --user --upgrade requests vk
 ```
 
-The harder part of filling settings is getting YouTube API key and creating an application in VK… heh, just kidding. It'll take 5 minutes of your time or less. Let's go!
+#### Ubuntu (or Debian)
+```bash
+$ sudo apt install python3 python3-pip
+$ pip3 install --user --upgrade requests vk
+```
+
+## Configuration
+
+The settings are located in `config.yaml`. An example of the settings:
+
+```python
+youtube_api_key: JKFjskf71jxvnf9781hjkv-21jf7f
+youtube_channel: Kurzgesagt
+vk_login: mail@example.com
+vk_password: totallynotapassword
+vk_app_id: 13333337
+vk_group_id: 13333337
+vk_api_version: 5.0
+```
+
+The filling of the settings will take 5 minutes of your time. Let's go!
 
 #### youtube_api_key
 
@@ -41,35 +52,38 @@ It's hard to explain, read **[this](http://help.dimsemenov.com/kb/wordpress-roya
 
 #### youtube_channel
 
-Just copy username or channel ID from YouTube URL. That's it.
+Just copy username or channel ID from YouTube URL. Examples:
+: Channel ID: `https://www.youtube.com/channel/`**UCsXVk37blfLxx1rDPwtNM8Q**
+: Username: `https://www.youtube.com/user/`**example**
 
 #### vk_api_login
 
-Your VK profile login. Don't worry, this script isn't sending your credentials to another server.
+Your VK profile login. 
 
 #### vk_api_password
 
-Your VK profile password. Keep calm! 
+Your VK profile password. Don't worry, this script doesn't send your password to China servers or something. You can check source code anyway.
 
 #### vk_api_id
 
-**[Click here](https://vk.com/editapp?act=create)** to create an app. After creating an app go to **Settings**, copy **Application ID** and paste it to config file between quote marks. Done!
+Click **[here](https://vk.com/editapp?act=create)** to create an app. After creating an app go to **Settings**, copy **Application ID** and paste it to config file between quote marks. Done!
 
 #### vk_group_id
 
-Well, it's easy too to get.
+Go to the group and copy ID from address bar. Example:
+: Group ID: `https://vk.com/group`**1337**
+
+#### vk_api_version
+
+Since February 2018 [every request to VK API should contains the parameter with API's version](https://vk.com/dev/version_update). Version `5.0` works fine, you can set it.
 
 ## Using
 
 After filling settings, you can execute the script by:
 ```bash
-python3 importer.py
+$ python importer.py
 ```
-or:
-```bash
-chmod +x importer.py
-./importer.py
-```
+
 
 ## License
 
